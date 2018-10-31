@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("vs2015", "vs2017", "nupkg-only", "gitlink")]
+    [ValidateSet("vs2013", "vs2015", "vs2017", "nupkg-only", "gitlink")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2015",
     [Parameter(Position = 1)]
@@ -115,7 +115,7 @@ function TernaryReturn
 function Msvs 
 {
     param(
-        [ValidateSet('v140', 'v141')]
+        [ValidateSet('v120', 'v140', 'v141')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain, 
 
@@ -134,6 +134,12 @@ function Msvs
     $VXXCommonTools = $null
 
     switch -Exact ($Toolchain) {
+        'v120' {
+            $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\12.0").MSBuildToolsPath -childpath "msbuild.exe"
+            $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
+            $VisualStudioVersion = '12.0'
+            $VXXCommonTools = Join-Path $env:VS120COMNTOOLS '..\..\vc'
+        }
         'v140' {
             $MSBuildExe = join-path -path (Get-ItemProperty "HKLM:\software\Microsoft\MSBuild\ToolsVersions\14.0").MSBuildToolsPath -childpath "msbuild.exe"
             $MSBuildExe = $MSBuildExe -replace "Framework64", "Framework"
@@ -238,10 +244,15 @@ function Msvs
 function VSX 
 {
     param(
-        [ValidateSet('v140', 'v141')]
+        [ValidateSet('v120', 'v140', 'v141')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [string] $Toolchain
     )
+
+    if($Toolchain -eq 'v120' -and $env:VS120COMNTOOLS -eq $null) {
+        Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
+        Return
+    }
 
     if($Toolchain -eq 'v140' -and $env:VS140COMNTOOLS -eq $null) {
         Warn "Toolchain $Toolchain is not installed on your development machine, skipping build."
@@ -402,6 +413,12 @@ switch -Exact ($Target)
     "gitlink"
     {
         UpdateSymbolsWithGitLink
+    }
+    "vs2013"
+    {
+        VSX v120
+        UpdateSymbolsWithGitLink
+        Nupkg
     }
     "vs2015"
     {

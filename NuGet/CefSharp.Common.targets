@@ -4,8 +4,8 @@
     <Error Text="$(MSBuildThisFileName) contains unmanaged resoures, set your project and solution platform to x86 or x64. Alternatively for AnyCPU Support see https://github.com/cefsharp/CefSharp/issues/1714" />
   </Target>
   
-  <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(TargetFrameworkVersion)' == 'v4.5.1') OR ('$(TargetFrameworkVersion)' == 'v4.5') OR ('$(TargetFrameworkVersion)' == 'v4.0'))">
-    <Error Text="CefSharp requires .Net 4.5.2 or higher" />
+  <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="('$(TargetFrameworkVersion)' == 'v4.0')">
+    <Error Text="CefSharp requires .Net 4.5 or higher" />
   </Target>
 
   <ItemGroup>

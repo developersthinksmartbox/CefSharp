@@ -385,7 +385,7 @@ function WriteVersionToResourceFile($resourceFile)
     $NewString = $ResourceData -replace $Regex1, "VERSION $AssemblyVersion"
     $NewString = $NewString -replace $Regex2, "Version"", ""$AssemblyVersion"""
     
-    $NewString | Set-Content $Filename -Encoding UTF8
+    [IO.File]::WriteAllLines($Filename, $NewString)
 }
 
 Write-Diagnostic "CEF Redist Version = $RedistVersion"

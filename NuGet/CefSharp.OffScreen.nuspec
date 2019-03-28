@@ -12,7 +12,7 @@
     <tags>osr chrome browser chromium-embedded cefsharp</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <group targetFramework=".NETFramework4.5.2">
+      <group targetFramework=".NETFramework4.5">
         <dependency id="CefSharp.Common" version="[$version$]" />
       </group>
       <group targetFramework=".NETCoreApp3.0">

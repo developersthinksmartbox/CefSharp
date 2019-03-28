@@ -4,8 +4,8 @@
     <Error Text="$(MSBuildThisFileName) is unable to proceeed as your current Platform is '$(Platform)'. To target AnyCPU please read https://github.com/cefsharp/CefSharp/issues/1714. Alternatively change your Platform to x86 or x64 and the relevant files will be copied automatically. For details on changing your projects Platform see https://docs.microsoft.com/en-gb/visualstudio/ide/how-to-configure-projects-to-target-platforms?view=vs-2017" HelpKeyword="CefSharpSolutionPlatformCheck" />
   </Target>
   
-  <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="(('$(TargetFrameworkVersion)' == 'v4.5.1') OR ('$(TargetFrameworkVersion)' == 'v4.5') OR ('$(TargetFrameworkVersion)' == 'v4.0'))">
-    <Error Text="CefSharp requires .Net 4.5.2 or higher" />
+  <Target Name="FrameworkVersionCheck" BeforeTargets="ResolveAssemblyReferences" Condition="('$(TargetFrameworkVersion)' == 'v4.0')">
+    <Error Text="CefSharp requires .Net 4.5 or higher" />
   </Target>
 
   <PropertyGroup>

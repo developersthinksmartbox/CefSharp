@@ -317,6 +317,7 @@ function DownloadNuget()
     $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
     if(-not (Test-Path $nuget))
     {
+		[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
         $client = New-Object System.Net.WebClient;
         $client.DownloadFile('https://dist.nuget.org/win-x86-commandline/latest/nuget.exe', $nuget);
     }
